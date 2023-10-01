@@ -17,18 +17,18 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
 
     // Configure CORS for development (You can adjust this later for production if needed)
     app.UseCors(builder => builder
-       .WithOrigins("http://localhost:4200")
+       .AllowAnyOrigin()
        .AllowAnyMethod()
        .AllowAnyHeader()
     );
-}
+//}
 
 app.UseHttpsRedirection();
 

@@ -1,3 +1,6 @@
+import { environment } from "./environments/environment";
+
+console.log(environment)
 export class Constants {
-  public static apiEndpoint: string = 'https://localhost:7037/api';
+  public static apiEndpoint: string = environment.url;
 }
