@@ -10,7 +10,7 @@ import { MetricsComponent } from './components/metrics/metrics.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AuthModule } from '@auth0/auth0-angular';
-import { environment } from './environments/environments';
+import { environment } from './environments/environment';
 import { DatePipe } from '@angular/common';
 import { CreateOrderComponent } from './components/create-order/create-order.component';
 import { MatDialogModule } from '@angular/material/dialog';
