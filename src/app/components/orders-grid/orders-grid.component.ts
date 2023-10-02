@@ -92,6 +92,7 @@ export class OrdersGridComponent implements OnInit {
     this.isVisible = true;
   }
   closeModalHandler(ev) {
+    this.selectOrders();
     this.isVisible = false;
   }
 }

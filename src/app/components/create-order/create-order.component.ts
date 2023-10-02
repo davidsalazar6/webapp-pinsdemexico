@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OrderService } from '../services/order.service';
+import { Order } from 'src/app/models/order';
+import { StatusService } from '../services/status.service';
+import { Status } from 'src/app/models/status';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-order',
@@ -13,11 +17,21 @@ export class CreateOrderComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   todayString: string = this.getTodayAsString();
   orderForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private orderService: OrderService) {
-  }
+  statuses: Status[] = [];
+  constructor(
+    private formBuilder: FormBuilder,
+    private orderService: OrderService,
+    private StatusService: StatusService,
+    private _snackBar: MatSnackBar
+  ) {}
   ngOnInit() {
     this.createForm();
-
+    this.getStatuses();
+  }
+  getStatuses() {
+    this.StatusService.getStatus().subscribe((res: Status[]) => {
+      this.statuses = res;
+    });
   }
   createForm() {
     this.orderForm = this.formBuilder.group({
@@ -29,8 +43,8 @@ export class CreateOrderComponent implements OnInit {
       invoiceNumber: [''],
       // Estos son campos que se llenan automáticamente
       createdDateTime: [''],
-      createdBy: [{ value: this.loggedUser?.name, disabled: true  }],
-      status: ['Pending'],
+      createdBy: [{ value: this.loggedUser?.name, disabled: true }],
+      statusKey: ['Pending'],
     });
   }
   getTodayAsString(): string {
@@ -48,8 +62,13 @@ export class CreateOrderComponent implements OnInit {
     this.saveOrder();
   }
   saveOrder() {
-    this.orderService.createOrder(this.orderForm.value).subscribe((res) => {
-      console.log('Order created successfully!');
+    const order: Order = this.orderForm.getRawValue();
+    order.updatedBy = null;
+    order.updatedDateTime = null;
+    order.status = this.statuses.find((x) => x.key === order.statusKey);
+    console.log(order);
+    this.orderService.createOrder(order).subscribe((res) => {
+      this._snackBar.open('Orden creada exitosamente!', 'Cerrar');
       this.close.emit();
     });
   }
