@@ -11954,26 +11954,29 @@
     ]
   },
   "packageFolders": {
-    "/Users/macbookpro/.nuget/packages/": {}
+    "C:\\Users\\David Salazar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/macbookpro/work/pins2/backend/PinsMexico/PinsMexico.csproj",
+      "projectUniqueName": "C:\\real\\pinsmx\\webapp-pinsdemexico\\backend\\PinsMexico\\PinsMexico.csproj",
       "projectName": "PinsMexico",
-      "projectPath": "/Users/macbookpro/work/pins2/backend/PinsMexico/PinsMexico.csproj",
-      "packagesPath": "/Users/macbookpro/.nuget/packages/",
-      "outputPath": "/Users/macbookpro/work/pins2/backend/PinsMexico/obj/",
+      "projectPath": "C:\\real\\pinsmx\\webapp-pinsdemexico\\backend\\PinsMexico\\PinsMexico.csproj",
+      "packagesPath": "C:\\Users\\David Salazar\\.nuget\\packages\\",
+      "outputPath": "C:\\real\\pinsmx\\webapp-pinsdemexico\\backend\\PinsMexico\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/macbookpro/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\David Salazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://arcus-tfs.jerue.com/Jerue/_packaging/arcus-nuget-feed/nuget/v3/index.json": {},
+        "https://nuget.telerik.com/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -12037,7 +12040,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
