@@ -32,10 +32,10 @@ namespace PinsMexico.Entities
     public DateTime? UpdatedDateTime { get; set; }
     public string CreatedBy { get; set; }
 
-    public string UpdatedBy { get; set; }
-    public string InvoiceNumber { get; set; }
+    public string? UpdatedBy { get; set; }
+    public string? InvoiceNumber { get; set; }
     public DateTime? PaymentDate { get; set; }
-    public string TrackingNumber { get; set; }
+    public string? TrackingNumber { get; set; }
 
     [ForeignKey("StatusKey")]
     public Status Status { get; set; }

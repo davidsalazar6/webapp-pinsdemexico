@@ -90,6 +90,7 @@ namespace PinsMexico.Controllers
           {
               return Problem("Entity set 'MyDbContext.Orders'  is null.");
           }
+           order.Status = null;
             _context.Orders.Add(order);
             try
             {
