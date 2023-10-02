@@ -7,13 +7,13 @@ import { MetricService } from '../services/metric.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   metrics: Metric[] = [];
   orders: Order[] = [];
   constructor(private metricService: MetricService) {
-   this.getMetrics();
+    this.getMetrics();
   }
 
   getMetrics() {
@@ -21,5 +21,7 @@ export class HomeComponent {
       this.metrics = data;
     });
   }
-
+  updateMetrics() {
+    this.getMetrics();
+  }
 }

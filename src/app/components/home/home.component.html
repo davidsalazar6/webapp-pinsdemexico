@@ -8,7 +8,7 @@
           <app-metrics [metric]="item"></app-metrics>
         </div>
       </div>
-    <app-orders-grid></app-orders-grid>
+    <app-orders-grid (updateMetrics)="updateMetrics()"></app-orders-grid>
   </div>
   <!-- END Page Section -->
 </main>

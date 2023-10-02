@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./orders-grid.component.css'],
 })
 export class OrdersGridComponent implements OnInit {
+  @Output() updateMetrics = new EventEmitter<void>();
   orders: Order[] = [];
   ordersCopy: Order[] = [];
   columnsNames: string[] = [
@@ -49,7 +50,7 @@ export class OrdersGridComponent implements OnInit {
   }
   getUser(): any {
     const user = localStorage.getItem('user');
-    console.log(JSON.parse(user))
+    console.log(JSON.parse(user));
     return user ? JSON.parse(user) : null;
   }
   selectOrders() {
@@ -93,6 +94,7 @@ export class OrdersGridComponent implements OnInit {
   }
   closeModalHandler(ev) {
     this.selectOrders();
+    this.updateMetrics.emit();
     this.isVisible = false;
   }
 }
