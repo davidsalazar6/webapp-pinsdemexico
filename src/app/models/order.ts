@@ -1,7 +1,6 @@
 import { Status } from "./status";
 
 export interface Order {
-  id: number;
   clientName: string;
   productName: string;
   statusKey: string;

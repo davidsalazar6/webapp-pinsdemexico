@@ -6,6 +6,8 @@ import { OrderService } from '../services/order.service';
 import { Order } from 'src/app/models/order';
 import { StatusService } from '../services/status.service';
 import { Status } from 'src/app/models/status';
+import { CreateOrderComponent } from '../create-order/create-order.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-orders-grid',
   templateUrl: './orders-grid.component.html',
@@ -15,7 +17,6 @@ export class OrdersGridComponent implements OnInit {
   orders: Order[] = [];
   ordersCopy: Order[] = [];
   columnsNames: string[] = [
-    'Id',
     'Cliente',
     'Producto',
     'Fecha creación',
@@ -23,7 +24,6 @@ export class OrdersGridComponent implements OnInit {
     'Cantidad',
     'Precio',
     'Anticipo',
-    'Liquidación',
     'Pago total',
     'Subtotal',
     'Factura #.',
@@ -32,15 +32,25 @@ export class OrdersGridComponent implements OnInit {
   public dropdownOpen = false;
   orderStatuses = [];
   selectedStatus: string = 'Todos';
+  isVisible: boolean = false;
+  loggedUser: any;
 
   constructor(
     public date: DatePipe,
+    public dialog: MatDialog,
     private orderService: OrderService,
     private statusService: StatusService
-  ) {}
+  ) {
+    this.loggedUser = this.getUser();
+  }
   ngOnInit(): void {
     this.selectOrders();
     this.selectStatus();
+  }
+  getUser(): any {
+    const user = localStorage.getItem('user');
+    console.log(JSON.parse(user))
+    return user ? JSON.parse(user) : null;
   }
   selectOrders() {
     this.orderService.getOrders().subscribe((data: Order[]) => {
@@ -50,8 +60,7 @@ export class OrdersGridComponent implements OnInit {
   }
   selectStatus() {
     this.statusService.getStatus().subscribe((data: Status[]) => {
-      this.orderStatuses = data;
-      this.orderStatuses.push({ key: 'Todos', name: 'Todos' })
+      this.orderStatuses = [{ key: 'Todos', name: 'Todos' }, ...data];
     });
   }
   onclickExport() {
@@ -78,5 +87,11 @@ export class OrdersGridComponent implements OnInit {
     }
 
     return this.orders;
+  }
+  openDialog() {
+    this.isVisible = true;
+  }
+  closeModalHandler(ev) {
+    this.isVisible = false;
   }
 }
