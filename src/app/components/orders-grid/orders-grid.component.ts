@@ -6,8 +6,8 @@ import { OrderService } from '../services/order.service';
 import { Order } from 'src/app/models/order';
 import { StatusService } from '../services/status.service';
 import { Status } from 'src/app/models/status';
-import { CreateOrderComponent } from '../create-order/create-order.component';
-import { MatDialog } from '@angular/material/dialog';
+import { OrderFormComponent } from '../order-form/order-form.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 @Component({
   selector: 'app-orders-grid',
   templateUrl: './orders-grid.component.html',
@@ -23,7 +23,7 @@ export class OrdersGridComponent implements OnInit {
     'Fecha creación',
     'Status',
     'Cantidad',
-    'Precio',
+    'Precio unitario',
     'Anticipo',
     'Pago total',
     'Subtotal',
@@ -33,7 +33,6 @@ export class OrdersGridComponent implements OnInit {
   public dropdownOpen = false;
   orderStatuses = [];
   selectedStatus: string = 'Todos';
-  isVisible: boolean = false;
   loggedUser: any;
 
   constructor(
@@ -50,12 +49,12 @@ export class OrdersGridComponent implements OnInit {
   }
   getUser(): any {
     const user = localStorage.getItem('user');
-    console.log(JSON.parse(user));
     return user ? JSON.parse(user) : null;
   }
   selectOrders() {
-    this.orderService.getOrders().subscribe((data: Order[]) => {
+    this.orderService.selectOrders().subscribe((data: Order[]) => {
       this.orders = data;
+      console.log(this.orders)
       this.ordersCopy = structuredClone(this.orders);
     });
   }
@@ -89,12 +88,23 @@ export class OrdersGridComponent implements OnInit {
 
     return this.orders;
   }
-  openDialog() {
-    this.isVisible = true;
-  }
-  closeModalHandler(ev) {
-    this.selectOrders();
-    this.updateMetrics.emit();
-    this.isVisible = false;
+  openDialog(action: string, order: Order) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      order: order,
+      action: action,
+      loggedUser: this.loggedUser
+    };
+
+    this.dialog.open(OrderFormComponent, dialogConfig).afterClosed().subscribe((res) => {
+      if(res === 'Success') {
+        this.selectOrders();
+        this.updateMetrics.emit();
+      }
+     });
   }
 }

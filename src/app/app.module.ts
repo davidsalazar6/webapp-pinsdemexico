@@ -12,8 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from './environments/environment';
 import { DatePipe } from '@angular/common';
-import { CreateOrderComponent } from './components/create-order/create-order.component';
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { OrderFormComponent } from './components/order-form/order-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MetricsComponent,
     NavbarComponent,
     FooterComponent,
-    CreateOrderComponent,
+    OrderFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +58,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AuthModule.forRoot(environment.auth),
   ],
   providers: [
-     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+      { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
     DatePipe,
     OrderService,
     StatusService,

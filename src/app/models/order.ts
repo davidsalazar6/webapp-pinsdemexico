@@ -1,6 +1,7 @@
 import { Status } from "./status";
 
 export interface Order {
+  id: number;
   clientName: string;
   productName: string;
   statusKey: string;
@@ -14,8 +15,8 @@ export interface Order {
   createdBy: string;
   updatedBy: string;
   invoiceNumber: string;
-  paymentDate: string;
-  trackingNumber: string;
+  // paymentDate: string;
+  // trackingNumber: string;
   status: Status;
 
   isOverdue?: boolean; // When the order has been created more than 7 days ago

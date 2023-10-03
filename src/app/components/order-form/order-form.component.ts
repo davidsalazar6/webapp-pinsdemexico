@@ -1,31 +1,48 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  Inject,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../services/order.service';
 import { Order } from 'src/app/models/order';
 import { StatusService } from '../services/status.service';
 import { Status } from 'src/app/models/status';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-create-order',
-  templateUrl: './create-order.component.html',
-  styleUrls: ['./create-order.component.css'],
+  selector: 'app-order-form',
+  templateUrl: './order-form.component.html',
+  styleUrls: ['./order-form.component.css'],
 })
-export class CreateOrderComponent implements OnInit {
-  @Input() isVisible: boolean = false;
-  @Input() loggedUser: any = null;
-  @Output() close = new EventEmitter<void>();
+export class OrderFormComponent implements OnInit {
+  loggedUser: any = null;
+  order: Order = null;
   todayString: string = this.getTodayAsString();
   orderForm: FormGroup;
   statuses: Status[] = [];
+  action: 'create' | 'edit' = 'create';
   constructor(
     private formBuilder: FormBuilder,
     private orderService: OrderService,
     private StatusService: StatusService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<OrderFormComponent>,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    this.order = data.order;
+    this.action = data.action;
+    this.loggedUser = data.loggedUser;
+  }
   ngOnInit() {
     this.createForm();
+    if (this.order != null) {
+      this.orderForm.patchValue(this.order);
+    }
     this.getStatuses();
   }
   getStatuses() {
@@ -35,11 +52,11 @@ export class CreateOrderComponent implements OnInit {
   }
   createForm() {
     this.orderForm = this.formBuilder.group({
-      clientName: [''],
-      productName: [''],
-      quantity: [0],
-      price: [0],
-      payInAdvance: [0],
+      clientName: ['', Validators.required],
+      productName: ['', Validators.required],
+      quantity: [0, Validators.required],
+      price: [0, Validators.required],
+      payInAdvance: [0, Validators.required],
       invoiceNumber: [''],
       // Estos son campos que se llenan automáticamente
       createdDateTime: [''],
@@ -55,25 +72,42 @@ export class CreateOrderComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
   onSubmit() {
-    this.orderForm.patchValue({
-      createdDateTime: this.todayString,
-    });
-    console.log('Your form data : ', this.orderForm.value);
-    this.saveOrder();
+    if (!this.orderForm.valid) return;
+
+    if (this.action === 'edit') {
+      this.updateOrder();
+    } else {
+      this.orderForm.patchValue({
+        createdDateTime: this.todayString,
+      });
+      this.saveOrder();
+    }
   }
   saveOrder() {
     const order: Order = this.orderForm.getRawValue();
     order.updatedBy = null;
     order.updatedDateTime = null;
     order.status = this.statuses.find((x) => x.key === order.statusKey);
-    console.log(order);
     this.orderService.createOrder(order).subscribe((res) => {
       this._snackBar.open('Orden creada exitosamente!', 'Cerrar');
-      this.close.emit();
+      this.dialogRef.close('Success');
+    });
+  }
+  updateOrder() {
+    const order: Order = this.orderForm.getRawValue();
+    order.updatedBy = this.loggedUser?.name;
+    order.updatedDateTime = this.todayString;
+    order.id = this.order.id;
+
+    order.status = this.statuses.find((x) => x.key === order.statusKey);
+    console.log(order);
+    this.orderService.updateOrder(order).subscribe((res) => {
+      this._snackBar.open('Orden actualizada exitosamente!', 'Cerrar');
+      this.dialogRef.close('Success');
     });
   }
   onClose() {
-    this.close.emit();
+    this.dialogRef.close('Cancel');
   }
 }
 // [
