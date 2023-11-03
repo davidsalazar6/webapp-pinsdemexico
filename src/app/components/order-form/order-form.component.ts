@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  Inject,
-} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../services/order.service';
 import { Order } from 'src/app/models/order';
@@ -13,13 +6,15 @@ import { StatusService } from '../services/status.service';
 import { Status } from 'src/app/models/status';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '@auth0/auth0-angular';
+import { AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-order-form',
   templateUrl: './order-form.component.html',
   styleUrls: ['./order-form.component.css'],
 })
-export class OrderFormComponent implements OnInit {
+export class OrderFormComponent implements OnInit, AfterViewInit {
   loggedUser: any = null;
   order: Order = null;
   todayString: string = this.getTodayAsString();
@@ -38,6 +33,15 @@ export class OrderFormComponent implements OnInit {
     this.action = data.action;
     this.loggedUser = data.loggedUser;
   }
+
+  ngAfterViewInit(): void {
+    if (!this.loggedUser) {
+      const userString = localStorage.getItem('user');
+      this.loggedUser = userString ? JSON.parse(userString) : null;
+      this.orderForm.get('createdBy').setValue(this.loggedUser?.name);
+    }
+  }
+
   ngOnInit() {
     this.createForm();
     if (this.order != null) {
@@ -45,6 +49,7 @@ export class OrderFormComponent implements OnInit {
     }
     this.getStatuses();
   }
+
   getStatuses() {
     this.StatusService.getStatus().subscribe((res: Status[]) => {
       this.statuses = res;
@@ -60,7 +65,7 @@ export class OrderFormComponent implements OnInit {
       invoiceNumber: [''],
       // Estos son campos que se llenan automáticamente
       createdDateTime: [''],
-      createdBy: [{ value: this.loggedUser?.name, disabled: true }],
+      createdBy: [this.loggedUser?.name],
       statusKey: ['Pending'],
     });
   }
@@ -110,16 +115,3 @@ export class OrderFormComponent implements OnInit {
     this.dialogRef.close('Cancel');
   }
 }
-// [
-//   'Cliente',
-//   'Producto',
-//   'Fecha creación',
-//   'Status',
-//   'Cantidad',
-//   'Precio',
-//   'Anticipo',
-//   'Pago total',
-//   'Subtotal',
-//   'Factura #.',
-//   'Capturado por',
-// ];
