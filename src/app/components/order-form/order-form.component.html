@@ -1,0 +1,135 @@
+<div class="relative z-10">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div
+        class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+       <h3 class="flex flex-col font-bold text-center">{{ action === 'create' ? 'Crear nuevo pedido' : 'Editar pedido' }}</h3>
+        <div>
+          <div class="mt-3 text-center sm:mt-5">
+
+            <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+              <div class="grid  grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 md:col-span-2">
+                <!-- Cliente -->
+                <div>
+                  <label for="clientName" class="block text-sm font-medium leading-6 text-gray-900">Nombre del
+                    cliente</label>
+                  <div class="mt-2 flex-1 mr-4">
+                    <input type="text" formControlName="clientName"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
+                  <p class="mt-2 text-sm text-red-600"
+                    *ngIf="orderForm.get('clientName').invalid && orderForm.get('clientName').touched">El nombre del
+                    cliente es requerido.
+                  </p>
+                </div>
+                <!-- Producto -->
+                <div>
+                  <label for="productName" class="block text-sm font-medium leading-6 text-gray-900">Nombre del
+                    producto</label>
+                  <div class="mt-2 flex-1 mr-4">
+                    <input type="text" formControlName="productName"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
+                  <p class="mt-2 text-sm text-red-600"
+                    *ngIf="orderForm.get('productName').invalid && orderForm.get('productName').touched">El nombre del
+                    producto es requerido.
+                  </p>
+                </div>
+                <!-- Cantidad -->
+                <div>
+                  <label for="quantity" class="block text-sm font-medium leading-6 text-gray-900">Cantidad de
+                    piezas</label>
+                  <div class="mt-2">
+                    <input type="text" formControlName="quantity"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
+                  <p class="mt-2 text-sm text-red-600"
+                    *ngIf="orderForm.get('quantity').invalid && orderForm.get('quantity').touched">La cantidad es
+                    requerida.
+                  </p>
+                </div>
+                <!-- Precio -->
+                <div>
+                  <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Precio unitario</label>
+                  <div class="relative mt-2 rounded-md shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                      <span class="text-gray-500 sm:text-sm">$</span>
+                    </div>
+                    <input type="text" formControlName="price"
+                      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="0.00" aria-describedby="price-currency">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <span class="text-gray-500 sm:text-sm" id="price-currency">MXN</span>
+                    </div>
+                  </div>
+                  <p class="mt-2 text-sm text-red-600"
+                    *ngIf="orderForm.get('price').invalid && orderForm.get('price').touched">El precio unitario es
+                    requerido.
+                  </p>
+                </div>
+
+
+
+                <!-- Anticipo -->
+                <div>
+                  <label for="payInAdvance" class="block text-sm font-medium leading-6 text-gray-900">Pago
+                    anticipo</label>
+                  <div class="relative mt-2 rounded-md shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                      <span class="text-gray-500 sm:text-sm">$</span>
+                    </div>
+                    <input type="text" formControlName="payInAdvance"
+                      class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="0.00" aria-describedby="price-currency">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <span class="text-gray-500 sm:text-sm" id="price-currency">MXN</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Numero de factura -->
+                <div>
+                  <label for="invoiceNumber" class="block text-sm font-medium leading-6 text-gray-900">Numero de
+                    factura</label>
+                  <div class="mt-2">
+                    <input type="text" formControlName="invoiceNumber"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
+                </div>
+                <!-- Estatus -->
+                <div>
+                  <label for="statusKey" class="block text-sm font-medium leading-6 text-gray-900">Estatus</label>
+                  <div class="mt-2">
+                    <select formControlName="statusKey"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                      <option value="Pending">Pendiente</option>
+                      <option value="Completed">Completado</option>
+                      <option value="Canceled">Cancelado</option>
+                    </select>
+                  </div>
+                  </div>
+
+                <!-- Creado por -->
+                <div>
+                  <label for="createdBy" class="block text-sm font-medium leading-6 text-gray-900">Creado por</label>
+                  <div class="mt-2">
+                    <input type="text" formControlName="createdBy"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+          <button type="submit" (click)="onSubmit()"
+            class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Guardar</button>
+          <button type="button" (click)="onClose()"
+            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>

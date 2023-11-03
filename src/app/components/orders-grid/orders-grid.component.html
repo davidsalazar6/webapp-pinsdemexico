@@ -1,0 +1,118 @@
+<!-- Transactions -->
+
+<!-- <app-create-order [isVisible]="isVisible" [loggedUser]="loggedUser" (close)="closeModalHandler($event)"></app-create-order> -->
+<div class="flex flex-col rounded-lg border bg-white md:col-span-3">
+  <div
+    class="flex flex-col items-center justify-between gap-4 border-b border-slate-100 p-5 text-center sm:flex-row sm:text-left">
+    <div>
+      <h2 class="mb-0.5 font-semibold">Todos los pedidos</h2>
+      <div class="relative inline-block text-left">
+        <div>
+    <fieldset class="mt-4">
+      <legend class="sr-only">Filtrar</legend>
+      <div class="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
+        <div *ngFor="let status of orderStatuses" class="flex items-center">
+          <input [id]="status.key" name="notification-method" type="radio" [checked]="selectedStatus === status.key"
+            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" (click)="onclickStatus(status)">
+          <label [for]="status.key" class="ml-3 block text-sm font-medium leading-6 text-gray-900">{{status.name}}</label>
+        </div>
+
+      </div>
+
+    </fieldset>
+
+        </div>
+      </div>
+    </div>
+    <div>
+          <button type="button" (click)="openDialog('create', null)"
+            class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-1">
+            Nuevo pedido</button>
+      <button type="button" (click)="onclickExport()" href="javascript:void(0)"
+        class="inline-flex items-center justify-center space-x-2 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-slate-800 hover:border-violet-300 hover:text-violet-800 active:border-slate-200">
+        Exportar a Excel
+      </button>
+    </div>
+  </div>
+  <div class="p-5">
+    <p class="italic text-blue-500" >Clic en el nombre del pedido para editar</p>
+    <div class="min-w-full overflow-x-auto rounded">
+      <table class="min-w-full align-middle text-sm">
+        <thead>
+          <tr class="border-b-2 border-slate-100">
+            <ng-container *ngFor="let colName of columnsNames">
+              <th class="min-w-[110px] py-3 px-3 text-left text-sm font-semibold tracking-wider text-slate-700">
+                {{ colName }}
+              </th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let order of orders">
+            <tr class="border-b border-slate-100" [ngClass]="{'bg-yellow-100': order.isOverdue}">
+              <td class="py-3 pr-3 text-left text-slate-600">
+                {{order.clientName}}
+              </td>
+              <td class="p-3">
+                <a (click)="openDialog('edit', order)" class="font-medium text-violet-500 hover:text-violet-700">
+                  {{order.productName}}</a>
+              </td>
+              <td class="p-3 font-medium text-slate-600">
+                {{ order.createdDateTime | date: 'dd/MM/yyyy'}}
+              </td>
+              <td class="p-3 font-medium text-slate-600">
+                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800"
+                  [ngClass]="{
+                'bg-green-100': order.status.key === 'Completed',
+                'bg-red-100': order.status.key === 'Canceled',
+                'bg-yellow-100': order.status.key === 'Pending'
+              }">
+                  {{order.status.name}}
+                </div>
+              </td>
+              <td class="p-2 text-center">{{order.quantity}} pz</td>
+              <td class="p-3 font-medium">
+                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+                {{ order.price | number }}
+                </div>
+              </td>
+              <td class="p-3 font-medium">
+                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+                {{ order.payInAdvance | number}}
+                </div>
+              </td>
+
+              <td class="p-3 font-medium">
+                <div
+                  class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+                {{ order.total | number }}
+                </div>
+              </td>
+              <td class="p-3 font-medium">
+                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+                {{ order.subtotal | number }}
+                </div>
+              </td>
+              <td class="p-3 font-medium">
+                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+                  {{order.invoiceNumber}}
+                </div>
+              </td>
+              <td class="p-3 font-medium">
+                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+                  {{order.createdBy}}
+                </div>
+              </td>
+              <!-- <td class="py-3 pl-3 text-right font-medium">
+                <a href="javascript:void(0)"
+                  class="group inline-flex items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 font-medium text-slate-800 hover:border-violet-300 hover:text-violet-800 active:border-slate-200">
+                  <span>View</span>
+                </a>
+              </td> -->
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

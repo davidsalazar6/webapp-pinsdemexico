@@ -1,0 +1,14 @@
+<main id="page-content" class="flex max-w-full flex-auto flex-col">
+  <!-- END Page Heading -->
+
+  <!-- Page Section -->
+  <div class="container mx-auto p-2">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-6 m-1">
+        <div *ngFor="let item of metrics">
+          <app-metrics [metric]="item"></app-metrics>
+        </div>
+      </div>
+    <app-orders-grid (updateMetrics)="updateMetrics()"></app-orders-grid>
+  </div>
+  <!-- END Page Section -->
+</main>

@@ -1,0 +1,24 @@
+<div>
+  <a href="javascript:void(0)"
+    class="flex flex-col rounded-lg border border-slate-200 bg-white hover:border-slate-300 active:border-violet-300">
+    <div class="flex grow items-center justify-between p-5">
+      <dl>
+        <dt class="text-2xl font-bold">{{ metric.value}}</dt>
+        <dd class="text-sm font-medium text-slate-500">{{ metric.title }}</dd>
+      </dl>
+      <div class="flex h-12 w-12 items-center justify-center rounded-xl" [ngClass]="{
+          'border-green-100 bg-green-50 text-green-500': metric.title === 'Pedidos completados',
+          'border-yellow-100 bg-yellow-50 text-yellow-500': metric.title === 'Pedidos pendientes',
+          'border-red-100 bg-red-50 text-red-500': metric.title === 'Pedidos cancelados'
+        }">
+        <img src="assets/icons/{{metric.svg}}" class="h-7 w-7" />
+      </div>
+
+
+
+    </div>
+    <div class="border-t border-slate-100 px-5 py-3 text-xs font-medium text-slate-500">
+      <p> {{ metric.subtitle }}</p>
+    </div>
+  </a>
+</div>

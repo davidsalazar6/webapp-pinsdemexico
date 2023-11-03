@@ -1,0 +1,7 @@
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+  <app-navbar></app-navbar>
+  <router-outlet></router-outlet>
+</ng-container>
+<ng-template #loggedOut>
+  <app-login></app-login>
+</ng-template>
