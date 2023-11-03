@@ -9,7 +9,7 @@ namespace PinsMexico
   {
     public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
     { }
-    public DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
     public DbSet<Status> Status { get; set; }
     public DbSet<Metric> Metrics { get; set; }
 
