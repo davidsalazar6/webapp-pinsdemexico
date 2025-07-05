@@ -75,14 +75,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "pins-mx-2023:build:production"
+              "buildTarget": "pins-mx-2023:build:production"
             },
-            "staging":{
-              "browserTarget": "pins-mx-2023:build:staging"
+            "staging": {
+              "buildTarget": "pins-mx-2023:build:staging"
 
             },
             "development": {
-              "browserTarget": "pins-mx-2023:build:development"
+              "buildTarget": "pins-mx-2023:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pins-mx-2023:build"
+            "buildTarget": "pins-mx-2023:build"
           }
         },
         "test": {
