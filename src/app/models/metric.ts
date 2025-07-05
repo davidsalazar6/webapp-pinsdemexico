@@ -1,6 +1,7 @@
 export interface Metric {
+  id: number;
   title: string;
   value: any;
-  subtitle: string;
+  subTitle: string;
   svg: string;
 }

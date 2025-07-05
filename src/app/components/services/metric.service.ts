@@ -10,6 +10,6 @@ export class MetricService {
   constructor(private http: HttpClient) {}
 
   getMetrics() {
-    return this.http.get(`${Constants.apiEndpoint}/Metrics`);
+    return this.http.get(`${Constants.apiEndpoint}/metrics`);
   }
 }

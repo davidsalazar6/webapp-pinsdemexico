@@ -10,6 +10,6 @@ export class StatusService {
   constructor(private http: HttpClient) {}
 
   getStatus() {
-    return this.http.get(`${Constants.apiEndpoint}/Status`);
+    return this.http.get(`${Constants.apiEndpoint}/status`);
   }
 }

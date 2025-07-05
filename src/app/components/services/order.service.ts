@@ -12,19 +12,19 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   selectOrders() {
-    return this.http.get(`${Constants.apiEndpoint}/Orders/SelectOrders`);
+    return this.http.get(`${Constants.apiEndpoint}/orders/SelectOrders`);
   }
   createOrder(data: Order): Observable<any> {
-    let API_URL = `${Constants.apiEndpoint}/Orders/CreateOrder`;
+    let API_URL = `${Constants.apiEndpoint}/orders/CreateOrder`;
     console.log(API_URL)
     return this.http.post(API_URL, data);
   }
   updateOrder(data: Order): Observable<any> {
-    let API_URL = `${Constants.apiEndpoint}/Orders/UpdateOrder/${data.id}`;
+    let API_URL = `${Constants.apiEndpoint}/orders/UpdateOrder/${data.id}`;
     return this.http.put(API_URL, data, { headers: this.headers });
   }
   deleteOrder(id: number): Observable<any> {
-    let API_URL = `${Constants.apiEndpoint}/Orders/DeleteOrder/${id}`;
+    let API_URL = `${Constants.apiEndpoint}/orders/DeleteOrder/${id}`;
     return this.http.delete(API_URL, { headers: this.headers });
   }
 }
