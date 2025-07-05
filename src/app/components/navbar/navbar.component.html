@@ -1,16 +1,16 @@
-<nav class="bg-gray-800">
+<nav class="navbar-themed">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <div class="flex-shrink-0">
           <a routerLink="/home">
-            <h2 class="text-white font-mono">Pins de México</h2>
+            <h2 class="font-mono">Pins de México</h2>
           </a>
         </div>
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a routerLink="/home" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+            <a routerLink="/home" class="nav-link active rounded-md px-3 py-2 text-sm font-medium"
               aria-current="page">Dashboard</a>
             <!-- <a routerLink="/orders"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Ordenes</a> -->
@@ -34,11 +34,16 @@
               </svg>
             </button> -->
 
+          <!-- Theme Toggle -->
+          <div class="mr-4">
+            <app-theme-toggle></app-theme-toggle>
+          </div>
+
           <!-- Profile dropdown -->
           <div class="relative ml-3">
             <div *ngIf="auth.user$ | async as user ">
               <span class="flex items-center">
-                <h3 class="text-white mr-5">{{user.name}}</h3>
+                <h3 class="user-name mr-5">{{user.name}}</h3>
                 <img class="h-8 w-8 rounded-full" src="{{user.picture}}">
               </span>
             </div>

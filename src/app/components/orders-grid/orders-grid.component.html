@@ -1,11 +1,10 @@
 <!-- Transactions -->
 
 <!-- <app-create-order [isVisible]="isVisible" [loggedUser]="loggedUser" (close)="closeModalHandler($event)"></app-create-order> -->
-<div class="flex flex-col rounded-lg border bg-white md:col-span-3">
-  <div
-    class="flex flex-col items-center justify-between gap-4 border-b border-slate-100 p-5 text-center sm:flex-row sm:text-left">
+<div class="orders-grid-container">
+  <div class="orders-header">
     <div>
-      <h2 class="mb-0.5 font-semibold">Todos los pedidos</h2>
+      <h2 class="orders-title">Todos los pedidos</h2>
       <div class="relative inline-block text-left">
         <div>
     <fieldset class="mt-4">
@@ -14,7 +13,7 @@
         <div *ngFor="let status of orderStatuses" class="flex items-center">
           <input [id]="status.key" name="notification-method" type="radio" [checked]="selectedStatus === status.key"
             class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" (click)="onclickStatus(status)">
-          <label [for]="status.key" class="ml-3 block text-sm font-medium leading-6 text-gray-900">{{status.name}}</label>
+          <label [for]="status.key" class="filter-label">{{status.name}}</label>
         </div>
 
       </div>
@@ -25,23 +24,21 @@
       </div>
     </div>
     <div>
-          <button type="button" (click)="openDialog('create', null)"
-            class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-1">
+          <button type="button" (click)="openDialog('create', null)" class="orders-btn-primary">
             Nuevo pedido</button>
-      <button type="button" (click)="onclickExport()" href="javascript:void(0)"
-        class="inline-flex items-center justify-center space-x-2 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-slate-800 hover:border-violet-300 hover:text-violet-800 active:border-slate-200">
+      <button type="button" (click)="onclickExport()" href="javascript:void(0)" class="orders-btn-secondary">
         Exportar a Excel
       </button>
     </div>
   </div>
-  <div class="p-5">
-    <p class="italic text-blue-500" >Clic en el nombre del pedido para editar</p>
-    <div class="min-w-full overflow-x-auto rounded">
-      <table class="min-w-full align-middle text-sm">
+  <div class="orders-content">
+    <p class="orders-help-text">Clic en el nombre del pedido para editar</p>
+    <div class="orders-table-wrapper">
+      <table class="orders-table">
         <thead>
-          <tr class="border-b-2 border-slate-100">
+          <tr class="orders-table-header">
             <ng-container *ngFor="let colName of columnsNames">
-              <th class="min-w-[110px] py-3 px-3 text-left text-sm font-semibold tracking-wider text-slate-700">
+              <th class="orders-table-th">
                 {{ colName }}
               </th>
             </ng-container>
@@ -49,59 +46,44 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let order of orders">
-            <tr class="border-b border-slate-100" [ngClass]="{'bg-yellow-100': order.isOverdue}">
-              <td class="py-3 pr-3 text-left text-slate-600">
+            <tr class="orders-table-row" [ngClass]="{'overdue': order.isOverdue}">
+              <td class="orders-table-td">
                 {{order.clientName}}
               </td>
-              <td class="p-3">
-                <a (click)="openDialog('edit', order)" class="font-medium text-violet-500 hover:text-violet-700">
+              <td class="orders-table-td">
+                <a (click)="openDialog('edit', order)" class="orders-edit-link">
                   {{order.productName}}</a>
               </td>
-              <td class="p-3 font-medium text-slate-600">
+              <td class="orders-table-td">
                 {{ order.createdDateTime | date: 'dd/MM/yyyy'}}
               </td>
-              <td class="p-3 font-medium text-slate-600">
-                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800"
-                  [ngClass]="{
-                'bg-green-100': order.status.key === 'Completed',
-                'bg-red-100': order.status.key === 'Canceled',
-                'bg-yellow-100': order.status.key === 'Pending'
+              <td class="orders-table-td">
+                <div class="status-badge" [ngClass]="{
+                'status-completed': order.status.key === 'Completed',
+                'status-canceled': order.status.key === 'Canceled',
+                'status-pending': order.status.key === 'Pending'
               }">
                   {{order.status.name}}
                 </div>
               </td>
-              <td class="p-2 text-center">{{order.quantity}} pz</td>
-              <td class="p-3 font-medium">
-                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+              <td class="orders-table-td text-center">{{order.quantity}} pz</td>
+              <td class="orders-table-td">
                 {{ order.price | number }}
-                </div>
               </td>
-              <td class="p-3 font-medium">
-                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+              <td class="orders-table-td">
                 {{ order.payInAdvance | number}}
-                </div>
               </td>
-
-              <td class="p-3 font-medium">
-                <div
-                  class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+              <td class="orders-table-td">
                 {{ order.total | number }}
-                </div>
               </td>
-              <td class="p-3 font-medium">
-                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
+              <td class="orders-table-td">
                 {{ order.subtotal | number }}
-                </div>
               </td>
-              <td class="p-3 font-medium">
-                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
-                  {{order.invoiceNumber}}
-                </div>
+              <td class="orders-table-td">
+                {{order.invoiceNumber}}
               </td>
-              <td class="p-3 font-medium">
-                <div class="inline-block rounded-full px-2 py-1 text-xs font-semibold leading-4 text-black-800">
-                  {{order.createdBy}}
-                </div>
+              <td class="orders-table-td">
+                {{order.createdBy}}
               </td>
               <!-- <td class="py-3 pl-3 text-right font-medium">
                 <a href="javascript:void(0)"

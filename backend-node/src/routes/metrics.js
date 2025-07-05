@@ -1,5 +1,4 @@
 import express from 'express';
-import { Op } from 'sequelize';
 import Metric from '../models/Metric.js';
 import Order from '../models/Order.js';
 

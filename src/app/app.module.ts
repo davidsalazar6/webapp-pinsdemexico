@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OrderFormComponent } from './components/order-form/order-form.component';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 @NgModule({ declarations: [
         AppComponent,
         LoginComponent,
@@ -37,6 +38,7 @@ import { OrderFormComponent } from './components/order-form/order-form.component
         NavbarComponent,
         FooterComponent,
         OrderFormComponent,
+        ThemeToggleComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,

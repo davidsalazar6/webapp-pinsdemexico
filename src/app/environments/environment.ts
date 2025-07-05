@@ -7,6 +7,13 @@ export const environment = {
       authorizationParams: {
         redirect_uri: window.location.origin,
       },
+      cacheLocation: 'localstorage' as const,
+      useRefreshTokens: true,
+      httpInterceptor: {
+        allowedList: [
+          'http://localhost:3001/api/*'
+        ]
+      }
     },
   };
   
