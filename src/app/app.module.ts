@@ -17,7 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { OrderService } from './components/services/order.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { StatusService } from './components/services/status.service';
 import { MetricService } from './components/services/metric.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,42 +28,37 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OrderFormComponent } from './components/order-form/order-form.component';
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    HomeComponent,
-    OrdersGridComponent,
-    MetricsComponent,
-    NavbarComponent,
-    FooterComponent,
-    OrderFormComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatSnackBarModule,
-    AuthModule.forRoot(environment.auth),
-  ],
-  providers: [
-      { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
-    DatePipe,
-    OrderService,
-    StatusService,
-    MetricService],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        HomeComponent,
+        OrdersGridComponent,
+        MetricsComponent,
+        NavbarComponent,
+        FooterComponent,
+        OrderFormComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatInputModule,
+        MatSnackBarModule,
+        AuthModule.forRoot(environment.auth)], providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} },
+        DatePipe,
+        OrderService,
+        StatusService,
+        MetricService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}
